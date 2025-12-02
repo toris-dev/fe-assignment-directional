@@ -228,11 +228,8 @@ https://fe-hiring-rest-api.vercel.app
 
 ## 🌐 배포 링크
 
-<!-- 배포 후 링크를 추가하세요 -->
-<!-- 예: https://your-app.vercel.app -->
+**프로덕션 배포**: https://fe-assignment-directional.vercel.app
 
----
-
-**개발자**: 게시판 시스템  
-**버전**: 0.0.0  
-**라이선스**: Private
+- **메인 페이지**: https://fe-assignment-directional.vercel.app
+- **데이터 시각화**: https://fe-assignment-directional.vercel.app/charts
+- **게시판** (로그인 필요): https://fe-assignment-directional.vercel.app/posts
