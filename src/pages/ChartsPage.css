@@ -1,0 +1,52 @@
+.charts-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.charts-page h1 {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.chart-section {
+  margin-bottom: 3rem;
+}
+
+.chart-section h2 {
+  margin-bottom: 1.5rem;
+  color: #555;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.chart-item {
+  width: 100%;
+}
+
+.loading,
+.error-message {
+  text-align: center;
+  padding: 4rem;
+  color: #666;
+}
+
+.error-message {
+  color: #e74c3c;
+  background: #fee;
+  border-radius: 4px;
+}
+
+@media (max-width: 1200px) {
+  .chart-row {
+    grid-template-columns: 1fr;
+  }
+}
+
