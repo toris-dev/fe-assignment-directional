@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   PieChart,
   Pie,
@@ -84,6 +84,58 @@ const DoughnutChart = ({
     (item) => !hiddenBrands.has(getBrandKey(item))
   );
 
+  // 전체 합계 계산 (비율 계산용)
+  const totalValue = useMemo(() => {
+    return visibleData.reduce((sum, item) => {
+      return (
+        sum +
+        (isTopCoffeeBrands
+          ? (item as TopCoffeeBrands).popularity
+          : (item as PopularSnackBrands).share)
+      );
+    }, 0);
+  }, [visibleData, isTopCoffeeBrands]);
+
+  // 커스텀 툴팁 컴포넌트 (useMemo로 메모이제이션)
+  const CustomTooltip = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return ({ active, payload }: any) => {
+      if (!active || !payload || payload.length === 0) return null;
+
+      const data = payload[0].payload;
+      const brandKey = isTopCoffeeBrands ? data.brand : data.name;
+      const value = isTopCoffeeBrands ? data.popularity : data.share;
+
+      // 비율 계산: payload의 percent가 있으면 사용, 없으면 전체 합계로 계산
+      let percent: number;
+      if (payload[0].percent !== undefined && payload[0].percent !== null) {
+        percent = payload[0].percent;
+      } else if (totalValue > 0) {
+        percent = value / totalValue;
+      } else {
+        percent = 0;
+      }
+      const percentText = (percent * 100).toFixed(1);
+
+      return (
+        <div className="custom-tooltip">
+          <p
+            style={{
+              fontWeight: 700,
+              marginBottom: "0.5rem",
+              fontSize: "1rem",
+            }}
+          >
+            {brandKey}
+          </p>
+          <p style={{ color: "#667eea" }}>
+            <strong>비율:</strong> {percentText}%
+          </p>
+        </div>
+      );
+    };
+  }, [isTopCoffeeBrands, totalValue]);
+
   // 데이터가 없으면 메시지 표시
   if (dataArray.length === 0) {
     return (
@@ -153,7 +205,7 @@ const DoughnutChart = ({
               );
             })}
           </Pie>
-          <Tooltip />
+          <Tooltip content={CustomTooltip} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>

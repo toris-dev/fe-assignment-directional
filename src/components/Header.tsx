@@ -23,8 +23,14 @@ const Header = () => {
           게시판 시스템
         </Link>
 
-        {authenticated && (
-          <nav className="header-nav">
+        <div className="header-right">
+          <Link
+            to={ROUTES.CHARTS}
+            className={`header-link ${isActive(ROUTES.CHARTS) ? "active" : ""}`}
+          >
+            데이터 시각화
+          </Link>
+          {authenticated && (
             <Link
               to={ROUTES.POSTS}
               className={`header-link ${
@@ -33,16 +39,7 @@ const Header = () => {
             >
               게시판
             </Link>
-          </nav>
-        )}
-
-        <div className="header-right">
-          <Link
-            to={ROUTES.CHARTS}
-            className={`header-link ${isActive(ROUTES.CHARTS) ? "active" : ""}`}
-          >
-            데이터 시각화
-          </Link>
+          )}
           {authenticated ? (
             <button onClick={logout} className="header-link logout-button">
               로그아웃
