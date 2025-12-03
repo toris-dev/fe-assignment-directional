@@ -80,7 +80,7 @@
   border-collapse: collapse;
   width: 100%;
   background: transparent;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .post-table thead {
@@ -166,6 +166,28 @@
 
 .post-table th:nth-child(6) {
   width: 15%;
+}
+
+.resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.resizer:hover {
+  background: #667eea;
+}
+
+.resizer.isResizing {
+  background: #667eea;
+  opacity: 1;
 }
 
 .post-table tbody tr {

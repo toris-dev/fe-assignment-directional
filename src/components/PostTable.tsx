@@ -56,7 +56,7 @@ const PostTableInner = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    enableColumnResizing: false,
+    enableColumnResizing: true,
     defaultColumn: {
       size: 100,
       minSize: 50,
@@ -115,6 +115,10 @@ const PostTableInner = ({
                     <th
                       key={header.id}
                       className={header.column.getCanSort() ? "sortable" : ""}
+                      style={{
+                        width: header.getSize(),
+                        position: "relative",
+                      }}
                     >
                       <div
                         onClick={header.column.getToggleSortingHandler()}
@@ -133,6 +137,23 @@ const PostTableInner = ({
                           desc: " ↓",
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
+                      {header.column.getCanResize() && (
+                        <div
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className="resizer"
+                          style={{
+                            position: "absolute",
+                            right: 0,
+                            top: 0,
+                            height: "100%",
+                            width: "5px",
+                            cursor: "col-resize",
+                            userSelect: "none",
+                            touchAction: "none",
+                          }}
+                        />
+                      )}
                     </th>
                   ))}
                 </tr>
@@ -146,7 +167,12 @@ const PostTableInner = ({
                   className={onRowClick ? "clickable-row" : ""}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
+                    <td
+                      key={cell.id}
+                      style={{
+                        width: cell.column.getSize(),
+                      }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -170,7 +196,7 @@ const PostTable = ({ posts, onRowClick }: PostTableProps) => {
         accessorKey: "id",
         header: "ID",
         size: 100,
-        enableResizing: false,
+        enableResizing: true,
         minSize: 80,
         maxSize: 120,
       },
@@ -178,7 +204,7 @@ const PostTable = ({ posts, onRowClick }: PostTableProps) => {
         accessorKey: "title",
         header: "제목",
         size: 200,
-        enableResizing: false,
+        enableResizing: true,
         minSize: 150,
         maxSize: 300,
       },
@@ -186,7 +212,7 @@ const PostTable = ({ posts, onRowClick }: PostTableProps) => {
         accessorKey: "body",
         header: "본문",
         size: 300,
-        enableResizing: false,
+        enableResizing: true,
         minSize: 200,
         maxSize: 400,
         cell: (info) => {
@@ -198,7 +224,7 @@ const PostTable = ({ posts, onRowClick }: PostTableProps) => {
         accessorKey: "category",
         header: "카테고리",
         size: 120,
-        enableResizing: false,
+        enableResizing: true,
         minSize: 100,
         maxSize: 150,
         cell: (info) => {
@@ -223,7 +249,7 @@ const PostTable = ({ posts, onRowClick }: PostTableProps) => {
         accessorKey: "tags",
         header: "태그",
         size: 200,
-        enableResizing: false,
+        enableResizing: true,
         minSize: 150,
         maxSize: 250,
         cell: (info) => {
@@ -248,7 +274,7 @@ const PostTable = ({ posts, onRowClick }: PostTableProps) => {
         accessorKey: "createdAt",
         header: "작성일",
         size: 180,
-        enableResizing: false,
+        enableResizing: true,
         minSize: 150,
         maxSize: 200,
         cell: (info) => {
